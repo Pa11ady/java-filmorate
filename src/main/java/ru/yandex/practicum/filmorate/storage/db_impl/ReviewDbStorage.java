@@ -70,4 +70,8 @@ public class ReviewDbStorage implements ReviewStorage {
         return review;
     }
 
+    @Override
+    public void delete(Long id) {
+        jdbcTemplate.update("DELETE FROM REVIEWS WHERE REVIEWS_ID = ?", id);
+    }
 }
