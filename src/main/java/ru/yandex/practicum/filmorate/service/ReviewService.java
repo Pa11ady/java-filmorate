@@ -17,7 +17,8 @@ public class ReviewService extends AbstractService<Review, ReviewStorage>{
     }
 
     @Override
-    public void validationBeforeCreate(Review data) {
-
+    public void validationBeforeCreate(Review review) {
+        super.validateId(review.getFilmId());
+        super.validateId(review.getUserId());
     }
 }

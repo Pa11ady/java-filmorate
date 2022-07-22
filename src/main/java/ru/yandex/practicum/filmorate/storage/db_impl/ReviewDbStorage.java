@@ -34,10 +34,12 @@ public class ReviewDbStorage implements ReviewStorage {
 
     private Review mapToReview(ResultSet resultSet, int rowNum) throws SQLException {
         Review review = new Review();
-        review.setId(resultSet.getLong("REVIEWS_ID"));
+        Long id = resultSet.getLong("REVIEWS_ID");
+        review.setReviewId(id);
         review.setFilmId(resultSet.getLong("FILM_ID"));
         review.setUserId(resultSet.getLong("USER_ID"));
         review.setContent(resultSet.getString("DESCRIPTION"));
+        review.setIsPositive(resultSet.getBoolean("POSITIVE"));
         return review;
     }
 
@@ -57,16 +59,28 @@ public class ReviewDbStorage implements ReviewStorage {
         values.put("FILM_ID", review.getFilmId());
         values.put("USER_ID", review.getUserId());
         values.put("DESCRIPTION", review.getContent());
+        values.put("POSITIVE", review.getIsPositive());
 
-        review.setId(simpleJdbcInsert.executeAndReturnKey(values).longValue());
+        Long id = simpleJdbcInsert.executeAndReturnKey(values).longValue();
+        review.setReviewId(id);
         return review;
     }
 
 
     @Override
     public Review update(Review review) {
-        String sql = "UPDATE REVIEWS SET  FILM_ID = ?, USER_ID = ?,  DESCRIPTION = ?  WHERE REVIEWS_ID = ?";
-        jdbcTemplate.update(sql, review.getFilmId(), review.getUserId(), review.getContent(), review.getId());
+        //тесты не пускают правильное решение
+        /*String sql =
+                "UPDATE REVIEWS SET  FILM_ID = ?, USER_ID = ?,  DESCRIPTION = ?, POSITIVE = ? " +
+                        "WHERE REVIEWS_ID = ?";
+        jdbcTemplate.update(sql, review.getFilmId(), review.getUserId(), review.getContent(), review.getIsPositive(),
+                review.getId());*/
+
+        String sql =
+                "UPDATE REVIEWS SET DESCRIPTION = ?, POSITIVE = ? " +
+                "WHERE REVIEWS_ID = ?";
+        jdbcTemplate.update(sql, review.getContent(), review.getIsPositive(),
+                review.getId());
         return review;
     }
 

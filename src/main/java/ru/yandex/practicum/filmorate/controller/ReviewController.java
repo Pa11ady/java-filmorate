@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yandex.practicum.filmorate.model.Review;
-import ru.yandex.practicum.filmorate.service.GenreService;
 import ru.yandex.practicum.filmorate.service.ReviewService;
 
 @RestController
@@ -15,5 +14,4 @@ public class ReviewController extends AbstractController<Review, ReviewService> 
     public ReviewController(ReviewService service) {
         super(service);
     }
-
 }

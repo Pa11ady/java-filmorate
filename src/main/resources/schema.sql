@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS reviews (
     film_id bigint   NOT NULL,
     user_id bigint   NOT NULL,
     description varchar(500)   NOT NULL,
+    positive boolean    NOT NULL,
     CONSTRAINT fk_reviews_film_id FOREIGN KEY(film_id) REFERENCES films (film_id),
     CONSTRAINT fk_reviews_user_id FOREIGN KEY(user_id) REFERENCES users (user_id),
     CONSTRAINT uc_film_id_user_id UNIQUE (film_id, user_id)
