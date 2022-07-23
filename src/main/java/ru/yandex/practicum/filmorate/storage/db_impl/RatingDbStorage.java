@@ -20,7 +20,7 @@ public class RatingDbStorage implements RatingStorage {
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public  RatingDbStorage(JdbcTemplate jdbcTemplate) {
+    public RatingDbStorage(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -67,9 +67,4 @@ public class RatingDbStorage implements RatingStorage {
         return rating;
     }
 
-    @Override
-    public void delete(Long id) {
-        final String sql = "DELETE FROM RATINGS WHERE RATING_ID = ?";
-        jdbcTemplate.update(sql, id);
-    }
 }

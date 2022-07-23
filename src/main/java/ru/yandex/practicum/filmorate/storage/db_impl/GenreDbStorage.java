@@ -66,11 +66,6 @@ public class GenreDbStorage implements GenreStorage {
         return genre;
     }
 
-    @Override
-    public void delete(Long id) {
-            final String sql = "DELETE FROM GENRES WHERE GENRE_ID = ?";
-            jdbcTemplate.update(sql, id);
-        }
 
     @Override
     public Set<Genre> getGenresByFilm(Film film) {

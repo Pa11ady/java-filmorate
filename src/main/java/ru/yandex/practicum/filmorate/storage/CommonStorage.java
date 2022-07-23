@@ -15,5 +15,7 @@ public interface CommonStorage <E extends AbstractEntity> {
 
     E update(E data);
 
-    void delete(Long id);
+    default void delete(Long id) {
+        throw new UnsupportedOperationException("Операция удаление не поддерживается.");
+    };
 }
