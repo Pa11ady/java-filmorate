@@ -88,6 +88,12 @@ public class UserDbStorage implements UserStorage {
     }
 
     @Override
+    public void delete(Long id) {
+        final String sql = "DELETE FROM USERS WHERE USER_ID = ?";
+        jdbcTemplate.update(sql, id);
+    }
+
+    @Override
     public boolean containsEmail(String email) {
         String sql = "SELECT * FROM USERS WHERE EMAIL = ?";
         SqlRowSet filmRows = jdbcTemplate.queryForRowSet(sql, email);

@@ -43,6 +43,11 @@ public class UserService extends AbstractService<User, UserStorage> {
         return user;
     }
 
+    @Override
+    public void delete(Long id) {
+        super.delete(id);
+    }
+
     //Шаблонный метод
     @Override
     public void validationBeforeCreate(User user) {
@@ -60,7 +65,7 @@ public class UserService extends AbstractService<User, UserStorage> {
         if (user == null || friend == null) {
             String message = ("Пользователь не найден");
             log.warn(message);
-            throw  new NotFoundException(message);
+            throw new NotFoundException(message);
         }
         if (user.containsFriend(friendId)) {
             log.warn("Друг существует");
@@ -71,7 +76,7 @@ public class UserService extends AbstractService<User, UserStorage> {
         if (storage.containsFriendship(friendId, id, false)) {
             //friendId уже добавил ранее в друзья
             storage.updateFriendship(friendId, id, true, friendId, id);
-        } else if (!storage.containsFriendship(id, friendId, null)){
+        } else if (!storage.containsFriendship(id, friendId, null)) {
             //Односторонняя связь, не было дружбы
             storage.insertFriendship(id, friendId);
         }
@@ -83,7 +88,7 @@ public class UserService extends AbstractService<User, UserStorage> {
         if (user == null || friend == null) {
             String message = ("Пользователь не найден");
             log.warn(message);
-            throw  new NotFoundException(message);
+            throw new NotFoundException(message);
         }
         if (!user.containsFriend(friendId)) {
             log.warn("Друг не существует");
@@ -125,7 +130,7 @@ public class UserService extends AbstractService<User, UserStorage> {
         if (user1 == null || user2 == null) {
             String message = ("Пользователь не найден");
             log.warn(message);
-            throw  new NotFoundException(message);
+            throw new NotFoundException(message);
         }
         List<Long> friendsId1 = user1.getFiends();
         List<Long> friendsId2 = user2.getFiends();

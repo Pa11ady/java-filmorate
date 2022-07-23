@@ -10,7 +10,6 @@ import ru.yandex.practicum.filmorate.model.Rating;
 import ru.yandex.practicum.filmorate.model.User;
 import ru.yandex.practicum.filmorate.storage.FilmStorage;
 import ru.yandex.practicum.filmorate.storage.GenreStorage;
-import ru.yandex.practicum.filmorate.storage.db_impl.FilmDbStorage;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -26,6 +25,7 @@ public class FilmService extends AbstractService<Film, FilmStorage> {
     private final LocalDate MIN_DATE = LocalDate.of(1895, 12, 28);
     private final UserService userService;
     private final GenreStorage genreStorage;
+
 
     @Autowired
     public FilmService(FilmStorage storage, UserService userService, GenreStorage genreStorage) {
@@ -62,6 +62,11 @@ public class FilmService extends AbstractService<Film, FilmStorage> {
         Film film = super.findById(id);
         loadData(film);
         return film;
+    }
+
+    @Override
+    public void delete(Long id) {
+        super.delete(id);
     }
 
     private void loadData(Film film) {
@@ -127,37 +132,13 @@ public class FilmService extends AbstractService<Film, FilmStorage> {
         storage.saveLikes(film);
     }
 
-    public List<Film> findPopularMovies(int count, int genreId, int year) {
-        List<Film> films = new ArrayList<>();
-        if (genreId == 0 && year == 0) {
-            films = this.findAll();
-        } else if (genreId == 0 && year != 0) {
-            //селект по всем жанрам и по конкретному году
-            films = storage.findAllByYear(year);
-            films.forEach(this::loadData);
-        } else if (genreId != 0 && year == 0) {
-            //селект по конкретному жанру и по всем годам
-            films = storage.findAllByGenre(genreId);
-            films.forEach(this::loadData);
-        } else {
-            //селект по конкретному жанру и по конкрутному году
-            films = storage.findAllByGenreAndYear(genreId, year);
-            films.forEach(this::loadData);
-        }
+    public List<Film> findPopularMovies(int count) {
+        List<Film> films = this.findAll();
         films.sort(Comparator.comparing(Film::getLikesCount).reversed());
         if (count > films.size()) {
             count = films.size();
         }
+
         return new ArrayList<>(films.subList(0, count));
     }
-
-    public List<Film> commonMovies(Long userId, Long friendId) {
-         List <Film> commonMovies = storage.commonMovies(userId, friendId);
-        for (var film : commonMovies) {
-            storage.loadLikes(film);
-        }
-        commonMovies.sort(Comparator.comparing(Film::getLikesCount).reversed());
-        return commonMovies;
-    }
-
 }

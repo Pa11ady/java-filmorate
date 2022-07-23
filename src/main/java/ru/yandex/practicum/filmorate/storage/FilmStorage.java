@@ -15,13 +15,5 @@ public interface FilmStorage extends CommonStorage<Film> {
     void loadLikes(Film film);
 
     void saveLikes(Film film);
-    
-    List<Film> findAllByYear(int year);
-
-    List<Film> findAllByGenre(int genreId);
-
-    List<Film> findAllByGenreAndYear(int genreId, int year);
-    
-    List<Film> commonMovies (Long userId, Long friendId);
 
 }

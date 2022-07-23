@@ -67,6 +67,12 @@ public class GenreDbStorage implements GenreStorage {
     }
 
     @Override
+    public void delete(Long id) {
+            final String sql = "DELETE FROM GENRES WHERE GENRE_ID = ?";
+            jdbcTemplate.update(sql, id);
+        }
+
+    @Override
     public Set<Genre> getGenresByFilm(Film film) {
         String sql = "SELECT g.GENRE_ID, g.NAME FROM GENRES g NATURAL JOIN FILMS_GENRES fg WHERE fg.FILM_ID = ?";
         return new HashSet<>(jdbcTemplate.query(sql, this::mapToGenre, film.getId()));

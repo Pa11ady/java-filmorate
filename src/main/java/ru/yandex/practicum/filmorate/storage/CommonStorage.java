@@ -14,4 +14,6 @@ public interface CommonStorage <E extends AbstractEntity> {
     E create(E data);
 
     E update(E data);
+
+    void delete(Long id);
 }

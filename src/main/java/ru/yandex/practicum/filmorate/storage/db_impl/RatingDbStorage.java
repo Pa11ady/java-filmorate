@@ -66,4 +66,10 @@ public class RatingDbStorage implements RatingStorage {
         jdbcTemplate.update(sql, rating.getName(), rating.getId());
         return rating;
     }
+
+    @Override
+    public void delete(Long id) {
+        final String sql = "DELETE FROM RATINGS WHERE RATING_ID = ?";
+        jdbcTemplate.update(sql, id);
+    }
 }
