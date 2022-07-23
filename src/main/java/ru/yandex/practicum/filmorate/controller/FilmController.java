@@ -31,6 +31,13 @@ public class FilmController extends AbstractController<Film, FilmService> {
         return service.findPopularMovies(count);
     }
 
+    @GetMapping("director/{directorId}")
+    public List<Film> getFilmsByDirector(
+            @PathVariable Long directorId,
+            @RequestParam(required = false, defaultValue = "year") String sortBy) {
+        return service.getByDirector(directorId, sortBy);
+    }
+
     @DeleteMapping("/{id}/")
     public void remove(@PathVariable("id") Long id) {
         service.delete(id);
